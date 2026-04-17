@@ -23,8 +23,6 @@ void voltar(){
 void lerAlunos(struct Aluno aluno[], int *n) {
     for (int i = 0; i < *n; i++) {
 
-        system("cls");
-
         printf("\n----Aluno %d----\n", i + 1);
 
         aluno[i].id = i + 1;
@@ -82,7 +80,6 @@ void listarPorEstado(struct Aluno aluno[], int *n) {
     char uf[3];
     int encontrado = 0;
 
-    system("cls");
     printf("\nDigite a sigla do estado: ");
     scanf("%2s", uf);
 
@@ -100,29 +97,23 @@ void listarPorEstado(struct Aluno aluno[], int *n) {
     voltar();
 }
 
-// O Bubble Sort funciona comparando dois elementos vizinhos por vez e trocando
-// de lugar quando estão na ordem errada. Ele vai repetindo esse processo
-// até que tudo esteja arrumado. A cada volta do loop externo, o maior (ou menor)
-// elemento vai "borbulhando" até sua posição final — daí o nome.
-// Ele é menos esperto que o Insertion Sort porque sempre percorre todos os pares,
-// mesmo quando já poderia parar.
+// ele funciona comparando dois elementos vizinhos por vez e trocando
+// de lugar quando estão na ordem errada. Ele vai repetindo até que tudo esteja arrumado.
+// Ele é menos eficiente que o Insertion Sort porque sempre percorre todos
+// os pares, mesmo quando já poderia parar.
 
-// Ordena do maior para o menor pela média das notas:
 // troca quando o da esquerda tem média menor que o da direita
 void bubbleMaiorNota(struct Aluno a[], int *n) {
-    struct Aluno aux; // variável temporária pra segurar um aluno durante a troca
+    struct Aluno aux;
 
     for (int i = 0; i < *n - 1; i++) {
         // A cada rodada, os últimos 'i' já estão no lugar certo,
-        // então não precisa revisitar eles
         for (int j = 0; j < *n - i - 1; j++) {
 
-            // Calcula a média dos dois alunos que estamos comparando agora
             double m1 = (a[j].notas.n1 + a[j].notas.n2) / 2;
             double m2 = (a[j+1].notas.n1 + a[j+1].notas.n2) / 2;
 
             // Se o da esquerda tirou menos, ele troca com o da direita
-            // pra quem tirou mais ficar na frente
             if (m1 < m2) {
                 aux    = a[j];
                 a[j]   = a[j+1];
@@ -131,7 +122,6 @@ void bubbleMaiorNota(struct Aluno a[], int *n) {
         }
     }
 
-    system("cls");
     printf("\n--- Ordenado por MAIOR nota ---\n");
     for (int i = 0; i < *n; i++)
         exibirAluno(&a[i]);
@@ -139,7 +129,6 @@ void bubbleMaiorNota(struct Aluno a[], int *n) {
     voltar();
 }
 
-// Ordena do menor para o maior pela média das notas:
 // troca quando o da esquerda tem média maior que o da direita
 void bubbleMenorNota(struct Aluno a[], int *n) {
     struct Aluno aux;
@@ -151,7 +140,6 @@ void bubbleMenorNota(struct Aluno a[], int *n) {
             double m2 = (a[j+1].notas.n1 + a[j+1].notas.n2) / 2;
 
             // Se o da esquerda tirou mais, ele troca com o da direita
-            // pra quem tirou menos ficar na frente
             if (m1 > m2) {
                 aux    = a[j];
                 a[j]   = a[j+1];
@@ -160,7 +148,6 @@ void bubbleMenorNota(struct Aluno a[], int *n) {
         }
     }
 
-    system("cls");
     printf("\n--- Ordenado por MENOR nota ---\n");
     for (int i = 0; i < *n; i++)
         exibirAluno(&a[i]);
@@ -184,7 +171,6 @@ void bubbleNumero(struct Aluno a[], int *n) {
         }
     }
 
-    system("cls");
     printf("\n--- Ordenado por NUMERO DA CASA ---\n");
     for (int i = 0; i < *n; i++)
         exibirAluno(&a[i]);
@@ -194,7 +180,7 @@ void bubbleNumero(struct Aluno a[], int *n) {
 
 // O Insertion Sort é como organizar cartas na mão: você pega uma carta nova
 // e vai encaixando ela no lugar certo entre as que já estão organizadas.
-// Ele é mais inteligente que o Bubble Sort porque para de comparar
+// Ele é melhor que o Bubble Sort porque para de comparar
 // assim que encontra o lugar certo, sem continuar varrendo à toa.
 
 // Ordena os alunos em ordem alfabética pelo nome
@@ -209,9 +195,8 @@ void insertNome(struct Aluno a[], int *n) {
         j = i - 1;
 
         // Empurra pra direita todos os alunos cujo nome vem depois do da chave,
-        // abrindo espaço para ela entrar no lugar certo
         while (j >= 0 && strcmp(a[j].nome, chave.nome) > 0) {
-            a[j+1] = a[j]; // abre espaço movendo o elemento uma posição pra frente
+            a[j+1] = a[j];
             j--;
         }
 
@@ -219,7 +204,6 @@ void insertNome(struct Aluno a[], int *n) {
         a[j+1] = chave;
     }
 
-    system("cls");
     printf("\n--- Insert Sort (Nome) ---\n");
     for (int i = 0; i < *n; i++)
         exibirAluno(&a[i]);
@@ -253,7 +237,6 @@ void insertMedia(struct Aluno a[], int *n) {
         a[j+1] = chave;
     }
 
-    system("cls");
     printf("\n--- Insert Sort (Media) ---\n");
     for (int i = 0; i < *n; i++)
         exibirAluno(&a[i]);
@@ -280,7 +263,6 @@ void insertNumero(struct Aluno a[], int *n) {
         a[j+1] = chave;
     }
 
-    system("cls");
     printf("\n--- Insert Sort (Numero da Casa) ---\n");
     for (int i = 0; i < *n; i++)
         exibirAluno(&a[i]);
@@ -293,7 +275,6 @@ void insertNumero(struct Aluno a[], int *n) {
 // uma versão menor do problema a cada chamada, até chegar num ponto
 // simples o suficiente pra resolver direto — esse ponto é o "caso base".
 
-// Busca um aluno pelo ID de forma recursiva.
 // A cada chamada, olha pro aluno na posição 'i' e passa pro próximo.
 // Devolve um ponteiro pro aluno encontrado, ou NULL se não existir.
 struct Aluno* buscarPorId(struct Aluno a[], int i, int n, int id) {
@@ -337,8 +318,9 @@ double calcMediaRecursiva(struct Aluno aluno[], int n) {
 void subMenuBubble(struct Aluno aluno[], int *n) {
     int opc;
 
+    system("cls");
+
     while (1) {
-        system("cls");
 
         printf("\n--- MENU BUBBLE SORT ---\n");
         printf("1 - Listar por maiores notas\n");
@@ -362,8 +344,9 @@ void subMenuBubble(struct Aluno aluno[], int *n) {
 void subMenuInsert(struct Aluno aluno[], int *n) {
     int opc;
 
+    system("cls");
+
     while (1) {
-        system("cls");
 
         printf("\n--- MENU INSERT SORT ---\n");
         printf("1 - Ordenar por nome\n");
@@ -387,8 +370,9 @@ void subMenuInsert(struct Aluno aluno[], int *n) {
 void subMenuRec(struct Aluno aluno[], int *n) {
     int opc;
 
+    system("cls");
+
     while (1) {
-        system("cls");
 
         printf("\n--- MENU RECURSIVIDADE ---\n");
         printf("1 - Buscar estudante por ID\n");
@@ -402,7 +386,6 @@ void subMenuRec(struct Aluno aluno[], int *n) {
         switch(opc) {
 
             case 1: {
-                system("cls");
                 int id;
                 printf("\nDigite o ID do aluno: ");
                 scanf("%d", &id);
